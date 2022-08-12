@@ -105,7 +105,6 @@ def outline_with_tabs(rect, z, tab_width, tab_depth):
     print("( Outlining WITH TABS rect x:{} y:{} width:{} height:{} tab_height: {})".format(rect.x, rect.y, rect.x_ext, rect.y_ext, tab_depth))
 
     if z <= tab_depth:
-        pass
         outline_rect(rect, z)
     else:
         line_series = generate_tab_polylines(Cncpoint(rect.x, rect.y), Cncpoint(rect.x, rect.y + rect.y_ext), -z, tab_width, -tab_depth)
@@ -144,7 +143,21 @@ def clear_rect(rect, cutter_diameter, depth, depth_per_pass):
 #        print("( diff: {} {})".format(diff, depth + zpos))
     retract(SAFE_HEIGHT)
 
+def cut_outline(rect, depth, depth_per_pass, cutter_diameter):
+    zpos = 0    # This is not correct, but it will work for now
+    diff = min(depth_per_pass, depth - zpos)
+#    print("( diff: {} {})".format(diff, depth + zpos))
+    while diff > 0:
+        zpos = zpos + diff
+#        print("( zpos: {})".format(zpos))
 
+        outline_rect(rect, zpos)        # I think we need to expand the rect by half the cutter diameter on every side, so that the outlined area is the rect we were given.
+                                        # This is probably also a problem for cut_outline_with_tabs.
+
+        diff = min(depth_per_pass, depth - zpos)
+#        print("( diff: {} {})".format(diff, depth + zpos))
+    retract(SAFE_HEIGHT)
+ 
 def cut_outline_with_tabs(rect, depth, depth_per_pass, cutter_diameter, tab_width, bridge_height):
     zpos = 0    # This is not correct, but it will work for now
     diff = min(depth_per_pass, depth - zpos)
@@ -159,5 +172,3 @@ def cut_outline_with_tabs(rect, depth, depth_per_pass, cutter_diameter, tab_widt
 #        print("( diff: {} {})".format(diff, depth + zpos))
     retract(SAFE_HEIGHT)
 
-
-#clear_rect(Cncrect(0, 0, X_EXTENT, Y_EXTENT), CUTTER_DIAMETER, CLEAR_DEPTH, DEPTH_PER_PASS)

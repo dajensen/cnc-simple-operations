@@ -1,0 +1,78 @@
+{
+    "stock": {
+        "comments": [
+            "This includes the space around the edges that is used to fasten the stock to the spoilboard",
+            "This stock is plywood that is nominally 1/2\" thick, but it's actually a little undersized."
+        ],
+        "x": 300,
+        "y": 100,
+        "z": 12
+    },
+    "tool": {
+        "comments": "This is a 1/4\" end mill", 
+        "diameter": 6.35
+    },
+    "job": {
+        "comments": "We can safely cut deeper than this, but the plywood tears out if the first cut is too deep.,",
+        "depth_per_pass": 3,
+        "tab_width": 6,
+        "tab_height": 3
+    },
+    "cuts": [
+        {
+            "comments": [
+                "This slot is just slightly more than 3/16\" deep, which means I can put in a 3/8\" T-slot extrusion",
+                "and use the same depth of rail slot in the jig faceplate."
+            ],
+            "name": "rail slot left",
+            "type": "rect",
+            "x": 50,
+            "y": 0,
+            "z": 0,
+            "depth": 4.77,
+            "width": 19.1,
+            "height": 100
+        },
+        {
+            "name": "rail slot right",
+            "type": "rect",
+            "x": 180.9,
+            "y": 0,
+            "z": 0,
+            "depth": 4.77,
+            "width": 19.1,
+            "height": 100
+        },
+        {
+            "name": "bolt slot left",
+            "type": "rect",
+            "x": 25,
+            "y": 25,
+            "z": 0,
+            "depth": 12,
+            "width": 7,
+            "height": 50
+        },
+        {
+            "name": "bolt slot right",
+            "type": "rect",
+            "x": 218,
+            "y": 25,
+            "z": 0,
+            "depth": 12,
+            "width": 7,
+            "height": 50
+        },
+        {
+            "name": "jig body",
+            "type": "outline",
+            "bridges": "true",
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "depth": 12,
+            "width": 250,
+            "height": 100
+        }
+    ]
+}

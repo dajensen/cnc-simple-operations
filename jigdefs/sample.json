@@ -1,0 +1,121 @@
+{
+    "stock": {
+        "comments": "This includes the space around the edges that is used to fasten the stock to the spoilboard",
+        "x": 301,
+        "y": 302,
+        "z": 12
+    },
+    "tool": {
+        "comments": "This is a 1/4 inch end mill", 
+        "diameter": 6.35
+    },
+    "job": {
+        "comments": "We can safely cut deeper than this, but the plywood tears out if the first cut is too deep.,",
+        "depth_per_pass": 3,
+        "tab_width": 6,
+        "tab_height": 3
+    },
+    "cuts": [
+        {
+            "name": "jig body",
+            "type": "rect",
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "depth": 12.1,
+            "width": 250,
+            "height": 250
+        },
+        {
+            "name": "screw hole",
+            "type": "spacer",
+            "x": 100,
+            "y": 200,
+            "z": 0,
+            "depth": 12.1,
+            "width": 14,
+            "height": 14,
+            "cuts": [
+                {
+                    "name": "screw_head",
+                    "type": "conical_hole",
+                    "x": 7,
+                    "y": 7,
+                    "z": 0,
+                    "depth": 4,
+                    "top_diameter": 14,
+                    "bottom_diameter": 8,
+                    "width": 14,
+                    "height": 14,
+                    "cuts": [
+                        {
+                            "name": "test1",
+                            "type": "rect",
+                            "x": 0,
+                            "y": 0,
+                            "z": 0,
+                            "depth": 12.1,
+                            "width": 250,
+                            "height": 250
+                        },
+                        {
+                            "name": "test2",
+                            "type": "rect",
+                            "x": 0,
+                            "y": 0,
+                            "z": 0,
+                            "depth": 12.1,
+                            "width": 250,
+                            "height": 250,
+                            "cuts": [
+                                {
+                                    "name": "test3",
+                                    "type": "rect",
+                                    "x": 0,
+                                    "y": 0,
+                                    "z": 0,
+                                    "depth": 12.1,
+                                    "width": 250,
+                                    "height": 250
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "name": "screw_threads",
+                    "type": "cylindrical_hole",
+                    "x": 0,
+                    "y": 0,
+                    "z":8 ,
+                    "depth": 8.1,
+                    "diameter": 8,
+                    "width": 8,
+                    "height": 8
+                },
+                {
+                    "name": "test4",
+                    "type": "rect",
+                    "x": 0,
+                    "y": 0,
+                    "z": 0,
+                    "depth": 12.1,
+                    "width": 250,
+                    "height": 250,
+                    "cuts": [
+                        {
+                            "name": "test5",
+                            "type": "rect",
+                            "x": 0,
+                            "y": 0,
+                            "z": 0,
+                            "depth": 12.1,
+                            "width": 250,
+                            "height": 250
+                        }
+                    ]
+                }        
+            ]
+        }
+    ]
+}

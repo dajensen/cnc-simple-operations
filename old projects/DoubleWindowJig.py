@@ -1,9 +1,5 @@
 #!/usr/bin/env python3
 
-from ssl import SSL_ERROR_WANT_X509_LOOKUP
-from tkinter.tix import WINDOW
-
-from sympy import solve_poly_inequality
 from classes.rectangles import clear_rect, Cncrect, cut_outline_with_tabs
 from classes.arcs import cut_arc, Cncpoint
 from classes.ambles import emit_preamble, emit_postamble
