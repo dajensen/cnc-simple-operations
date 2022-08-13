@@ -122,6 +122,11 @@ def shrink_rect(rect, shrink_amount):
         return None
     return Cncrect(rect.x + shrink_amount / 2, rect.y + shrink_amount / 2, rect.x_ext - shrink_amount, rect.y_ext - shrink_amount)
 
+def expand_rect(rect, expand_amount):
+    if rect.x_ext - expand_amount <= 0 or rect.y_ext - expand_amount <= 0:
+        return None
+    return Cncrect(rect.x - expand_amount / 2, rect.y - expand_amount / 2, rect.x_ext + expand_amount, rect.y_ext + expand_amount)
+
 def clear_rect_on_plane(rect, z, cutter_diameter):
     hogrect = shrink_rect(rect, cutter_diameter * 2)
     if hogrect:
@@ -144,6 +149,7 @@ def clear_rect(rect, cutter_diameter, depth, depth_per_pass):
     retract(SAFE_HEIGHT)
 
 def cut_outline(rect, depth, depth_per_pass, cutter_diameter):
+    bigger_rect = expand_rect(rect, cutter_diameter)
     zpos = 0    # This is not correct, but it will work for now
     diff = min(depth_per_pass, depth - zpos)
 #    print("( diff: {} {})".format(diff, depth + zpos))
@@ -151,7 +157,7 @@ def cut_outline(rect, depth, depth_per_pass, cutter_diameter):
         zpos = zpos + diff
 #        print("( zpos: {})".format(zpos))
 
-        outline_rect(rect, zpos)        # I think we need to expand the rect by half the cutter diameter on every side, so that the outlined area is the rect we were given.
+        outline_rect(bigger_rect, zpos)        # I think we need to expand the rect by half the cutter diameter on every side, so that the outlined area is the rect we were given.
                                         # This is probably also a problem for cut_outline_with_tabs.
 
         diff = min(depth_per_pass, depth - zpos)
@@ -159,6 +165,7 @@ def cut_outline(rect, depth, depth_per_pass, cutter_diameter):
     retract(SAFE_HEIGHT)
  
 def cut_outline_with_tabs(rect, depth, depth_per_pass, cutter_diameter, tab_width, bridge_height):
+    bigger_rect = expand_rect(rect, cutter_diameter)
     zpos = 0    # This is not correct, but it will work for now
     diff = min(depth_per_pass, depth - zpos)
 #    print("( diff: {} {})".format(diff, depth + zpos))
@@ -166,7 +173,7 @@ def cut_outline_with_tabs(rect, depth, depth_per_pass, cutter_diameter, tab_widt
         zpos = zpos + diff
 #        print("( zpos: {})".format(zpos))
 
-        outline_with_tabs(rect, zpos, cutter_diameter + tab_width, depth - bridge_height)
+        outline_with_tabs(bigger_rect, zpos, cutter_diameter + tab_width, depth - bridge_height)
 
         diff = min(depth_per_pass, depth - zpos)
 #        print("( diff: {} {})".format(diff, depth + zpos))
