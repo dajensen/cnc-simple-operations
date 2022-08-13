@@ -1,3 +1,5 @@
+#! /usr/bin/python
+
 import sys
 import json
 from classes.ambles import emit_preamble, emit_postamble
