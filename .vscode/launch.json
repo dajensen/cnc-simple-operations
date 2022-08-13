@@ -12,7 +12,8 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": [
-                "jigdefs/JigBaseHorizontal.json"
+                "jigdefs/ScrewHoleJig.json",
+                ">","output/ScrewHoleJig.gc"
             ]
         }
     ]

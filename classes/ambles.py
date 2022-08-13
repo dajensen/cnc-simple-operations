@@ -19,6 +19,7 @@ M03
 def emit_postamble():
     print("""
 G00 Z25.000000 ( retract )
+G00 X0 Y0      ( return home )
 
 M02 ( Program end. )
 """)

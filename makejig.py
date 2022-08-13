@@ -4,7 +4,7 @@ import sys
 import json
 from classes.ambles import emit_preamble, emit_postamble
 from classes.rectangles import Cncrect, clear_rect, cut_outline, cut_outline_with_tabs
-from classes.arcs import Cncpoint, cut_arc
+from classes.arcs import Cncpoint, cut_circle, cut_arc
 
 class StockInfo:
 
@@ -33,12 +33,18 @@ class CncCut:
         else:
             self.name = "(unnamed)"
         try:
-            self.x = cut['x']
-            self.y = cut['y']
-            self.z = cut['z']
-            self.depth = cut['depth']
-            self.width = cut['width']
-            self.height = cut['height']
+            if not "x" in vars(self):
+                self.x = cut['x']
+            if not "y" in vars(self):
+                self.y = cut['y']
+            if not "z" in vars(self):
+                self.z = cut['z']
+            if not "depth" in vars(self):
+                self.depth = cut['depth']
+            if not "width" in vars(self):
+                self.width = cut['width']
+            if not "height" in vars(self):
+                self.height = cut['height']
         except AttributeError:
             dump_attribute_exception(self.name)
 
@@ -59,6 +65,25 @@ class CncRect(CncCut):
     def exec(self, stock, tool, job):
         # print('CncRect exec {0}'.format(self.name))
         clear_rect(Cncrect(self.x, self.y, self.width, self.height), tool.diameter, self.depth, job.depth_per_pass)
+
+class CncCircle(CncCut):
+
+    def __init__(self, cut):
+        try:
+            self.x = cut['center_x']
+            self.y = cut['center_y']
+            self.diameter = cut['diameter']
+
+            self.width = self.diameter
+            self.height = self.diameter
+        except AttributeError:
+            dump_attribute_exception(self.name)
+        super().__init__(cut)
+
+    def exec(self, stock, tool, job):
+        #print('CncCircle exec {0}'.format(self.name))
+        cut_circle(Cncpoint(self.x, self.y), self.diameter, self.depth, job.depth_per_pass, tool.diameter)
+
 
 class CncOutline(CncCut):
 
@@ -132,6 +157,8 @@ def load_cut(cutnode):
             rv = CncRect(cutnode)
         elif(cutnode['type'] == 'outline'):
             rv = CncOutline(cutnode)
+        elif(cutnode['type'] == 'circle'):
+            rv = CncCircle(cutnode)
         else:
             rv =CncCut(cutnode)
     except AttributeError:
@@ -206,4 +233,3 @@ print("( Executing all )")
 emit_preamble()
 exec_all_cuts(cuts, stock, tool, job)
 emit_postamble()
-

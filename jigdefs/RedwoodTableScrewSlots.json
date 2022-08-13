@@ -1,0 +1,95 @@
+{
+    "stock": {
+        "comments": [
+            "This includes the space around the edges that is used to fasten the stock to the spoilboard",
+            "This stock is plywood that is nominally 1/2\" thick, but it's actually a little undersized.",
+            "It is meant to be bolted to the jig base.  Use it with a 1/2\" bit in a 3/4\" OD bushing, which gives a 1/8\" overhang."
+        ],
+        "x": 300,
+        "y": 300,
+        "z": 12
+    },
+    "tool": {
+        "comments": "1/4\" end mill", 
+        "diameter": 6.35
+    },
+    "job": {
+        "comments": "We can safely cut deeper than this, but the plywood tears out if the first cut is too deep.,",
+        "depth_per_pass": 3,
+        "tab_width": 6,
+        "tab_height": 3
+    },
+    "cuts": [
+        {
+            "comments": [
+                "This is the window for the router bushing. There's a 1/8\" overhang on each side for the bushing,",
+                "so this results in a 5/8\" x 1 1/4\" slot.  A 1/4\" washer will slide in that slot.  To cut the slot for the 1/4\" bolt,",
+                "switch to a 5/8\" bushing and a 1/4\" bit and cut as deeply as possible.  Finish by drilling the rest of the way through",
+                "and cleaning up with saw and chisel." ,
+                "and use the same depth of rail slot in the jig faceplate."
+            ],
+            "name": "window",
+            "type": "rect",
+            "x": 101.125,
+            "y": 178.975,
+            "z": 0,
+            "depth": 12,
+            "height": 24.35,
+            "width": 47.75
+        },
+        {
+            "comments": [
+                "This slot is just slightly more than 3/16\" deep, which means I can put in a 3/8\" T-slot extrusion",
+                "and use the same depth of rail slot in the jig faceplate."
+            ],
+            "name": "rail slot left",
+            "type": "rect",
+            "x": 50,
+            "y": 0,
+            "z": 0,
+            "depth": 4.77,
+            "width": 19.1,
+            "height": 115
+        },
+
+        {
+            "name": "rail slot right",
+            "type": "rect",
+            "x": 180.9,
+            "y": 0,
+            "z": 0,
+            "depth": 4.77,
+            "width": 19.1,
+            "height": 115
+        },
+        {
+            "name": "bolt left",
+            "type": "circle",
+            "center_x": 28.175,
+            "center_y": 50,
+            "diameter": 13,
+            "z": 0,
+            "depth": 12
+        },
+        {
+            "name": "bolt right",
+            "type": "circle",
+            "center_x": 221.825,
+            "center_y": 50,
+            "diameter": 13,
+            "z": 0,
+            "depth": 12
+        },
+        {
+            "name": "jig body",
+            "type": "outline",
+            "bridges": "true",
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "depth": 12,
+            "width": 250,
+            "height": 250
+        }
+    ]
+}
