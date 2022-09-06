@@ -5,6 +5,7 @@ import json
 from classes.ambles import emit_preamble, emit_postamble
 from classes.rectangles import Cncrect, clear_rect, cut_outline, cut_outline_with_tabs
 from classes.arcs import Cncpoint, cut_circle, cut_arc
+from classes.ovals import cut_oval, cut_oval_with_tabs
 
 class StockInfo:
 
@@ -55,7 +56,7 @@ class CncCut:
                 self.cuts.append(newcut)
 
     def exec(self, stock, tool, job):
-        print('CncCut exec {0}'.format(self.name))
+        raise ValueError('Unknown type of CncCut for object named \"{0}\"'.format(self.name))
 
 class CncRect(CncCut):
 
@@ -84,7 +85,6 @@ class CncCircle(CncCut):
         #print('CncCircle exec {0}'.format(self.name))
         cut_circle(Cncpoint(self.x, self.y), self.diameter, self.depth, job.depth_per_pass, tool.diameter)
 
-
 class CncOutline(CncCut):
 
     def __init__(self, cut):
@@ -100,12 +100,33 @@ class CncOutline(CncCut):
         else:
             cut_outline(Cncrect(self.x, self.y, self.width, self.height), self.depth, job.depth_per_pass, tool.diameter)
 
+class CncOvalOutline(CncCut):
+
+    def __init__(self, cut):
+        super().__init__(cut)
+        self.bridges = False
+        if "bridges" in cut:
+            self.bridges = cut["bridges"].lower() == "true"
+        # rounded_axis is required.  If it's missing or invalid, an exception will be thrown
+        rounded_axis = cut["rounded_axis"].lower()
+        if rounded_axis == 'x' or rounded_axis == 'y':
+            self.rounded_axis =  rounded_axis
+        else:
+            raise ValueError("Oval object \"{0}\" has invalid value for rounded_axis.  Must be \"x\" or \"y\".".format(self.name))
+
+    def exec(self, stock, tool, job):
+        # print('CncRect exec {0}'.format(self.name))
+        if self.bridges:
+            cut_oval_with_tabs(Cncrect(self.x, self.y, self.width, self.height), self.depth, job.depth_per_pass, tool.diameter, job.tab_width, job.tab_height)
+        else:
+            cut_oval(Cncrect(self.x, self.y, self.width, self.height), self.depth, job.depth_per_pass, tool.diameter)
+
 
 # Exception and error handling
 def dump_exception():
     type, value, traceback = sys.exc_info()
     if type.__name__ == 'KeyError':
-        dump_key_error_exception();
+        dump_key_error_exception()
 
     print("Exception type: {0}".format(type.__name__))
     for valitem in value.args:
@@ -159,6 +180,8 @@ def load_cut(cutnode):
             rv = CncOutline(cutnode)
         elif(cutnode['type'] == 'circle'):
             rv = CncCircle(cutnode)
+        elif(cutnode['type'] == 'oval_outline'):
+            rv = CncOvalOutline(cutnode)
         else:
             rv =CncCut(cutnode)
     except AttributeError:

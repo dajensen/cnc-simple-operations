@@ -1,0 +1,119 @@
+( Stock dimensions: 30, 75, 8 )
+( Tool diameter: 6.35 )
+( Job depth per pass: 3 )
+( Total cuts: 2 )
+( Executing all )
+
+( simple_operations by dave jensen )
+( Software-independent Gcode )
+
+G94 ( Millimeters per minute feed rate. )
+G21 ( Units == Millimeters. )
+G90 ( Absolute coordinates. )
+G00 S24000 ( RPM spindle speed. )
+G01 F3000.00000 ( A high feed rate, NOT SUITABLE for circuit boards )
+
+(Spindle on, clockwise)
+M03
+
+
+
+( Outlining rect x:12.925 y:15.175 width:0.6500000000000004 height:18.65 )
+( Cutting polyline )
+G01 X12.9250 Y15.1750
+G01 Z-3.0000
+G01 X12.9250 Y33.8250
+G01 X13.5750 Y33.8250
+G01 X13.5750 Y15.1750
+G01 X12.9250 Y15.1750
+( End polyline )
+
+( Outlining rect x:12.925 y:15.175 width:0.6500000000000004 height:18.65 )
+( Cutting polyline )
+G01 X12.9250 Y15.1750
+G01 Z-6.0000
+G01 X12.9250 Y33.8250
+G01 X13.5750 Y33.8250
+G01 X13.5750 Y15.1750
+G01 X12.9250 Y15.1750
+( End polyline )
+
+( Outlining rect x:12.925 y:15.175 width:0.6500000000000004 height:18.65 )
+( Cutting polyline )
+G01 X12.9250 Y15.1750
+G01 Z-8.1000
+G01 X12.9250 Y33.8250
+G01 X13.5750 Y33.8250
+G01 X13.5750 Y15.1750
+G01 X12.9250 Y15.1750
+( End polyline )
+G01 Z5.0000   ( retract to safe height )
+
+( Outlining WITH TABS rect x:1.8250000000000002 y:1.8250000000000002 width:22.85 height:45.35 tab_height: 6.1)
+
+( Outlining rect x:1.8250000000000002 y:1.8250000000000002 width:22.85 height:45.35 )
+( Cutting polyline )
+G01 X1.8250 Y1.8250
+G01 Z-3.0000
+G01 X1.8250 Y47.1750
+G01 X24.6750 Y47.1750
+G01 X24.6750 Y1.8250
+G01 X1.8250 Y1.8250
+( End polyline )
+
+( Outlining WITH TABS rect x:1.8250000000000002 y:1.8250000000000002 width:22.85 height:45.35 tab_height: 6.1)
+
+( Outlining rect x:1.8250000000000002 y:1.8250000000000002 width:22.85 height:45.35 )
+( Cutting polyline )
+G01 X1.8250 Y1.8250
+G01 Z-6.0000
+G01 X1.8250 Y47.1750
+G01 X24.6750 Y47.1750
+G01 X24.6750 Y1.8250
+G01 X1.8250 Y1.8250
+( End polyline )
+
+( Outlining WITH TABS rect x:1.8250000000000002 y:1.8250000000000002 width:22.85 height:45.35 tab_height: 6.1)
+( Cutting polyline3d )
+G01 X1.8250 Y1.8250
+G01 X1.8250 Y1.8250 Z-8.1000
+G01 X1.8250 Y19.3250 Z-8.1000
+G01 X1.8250 Y19.3250 Z-6.1000
+G01 X1.8250 Y29.6750 Z-6.1000
+G01 X1.8250 Y29.6750 Z-8.1000
+G01 X1.8250 Y47.1750 Z-8.1000
+( End polyline )
+( Cutting polyline3d )
+G01 X1.8250 Y47.1750
+G01 X1.8250 Y47.1750 Z-8.1000
+G01 X8.0750 Y47.1750 Z-8.1000
+G01 X8.0750 Y47.1750 Z-6.1000
+G01 X18.4250 Y47.1750 Z-6.1000
+G01 X18.4250 Y47.1750 Z-8.1000
+G01 X24.6750 Y47.1750 Z-8.1000
+( End polyline )
+( Cutting polyline3d )
+G01 X24.6750 Y47.1750
+G01 X24.6750 Y47.1750 Z-8.1000
+G01 X24.6750 Y29.6750 Z-8.1000
+G01 X24.6750 Y29.6750 Z-6.1000
+G01 X24.6750 Y19.3250 Z-6.1000
+G01 X24.6750 Y19.3250 Z-8.1000
+G01 X24.6750 Y1.8250 Z-8.1000
+( End polyline )
+( Cutting polyline3d )
+G01 X24.6750 Y1.8250
+G01 X24.6750 Y1.8250 Z-8.1000
+G01 X18.4250 Y1.8250 Z-8.1000
+G01 X18.4250 Y1.8250 Z-6.1000
+G01 X8.0750 Y1.8250 Z-6.1000
+G01 X8.0750 Y1.8250 Z-8.1000
+G01 X1.8250 Y1.8250 Z-8.1000
+( End polyline )
+G01 Z5.0000   ( retract to safe height )
+
+G00 Z25.000000 ( retract )
+G00 X0 Y0      ( return home )
+
+M02 ( Program end. )
+
