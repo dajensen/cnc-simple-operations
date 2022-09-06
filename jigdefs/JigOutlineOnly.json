@@ -1,0 +1,35 @@
+{
+    "stock": {
+        "comments": [
+            "This includes the space around the edges that is used to fasten the stock to the spoilboard",
+            "This stock is plywood that is nominally 1/2\" thick, but it's actually a little undersized.",
+            "It is meant to be bolted to the jig base.  Use it with a 1/2\" bit in a 3/4\" OD bushing, which gives a 1/8\" overhang."
+        ],
+        "x": 300,
+        "y": 300,
+        "z": 12
+    },
+    "tool": {
+        "comments": "1/4\" end mill", 
+        "diameter": 6.35
+    },
+    "job": {
+        "comments": "We can safely cut deeper than this, but the plywood tears out if the first cut is too deep.,",
+        "depth_per_pass": 3,
+        "tab_width": 6,
+        "tab_height": 3
+    },
+    "cuts": [
+        {
+            "name": "jig body",
+            "type": "outline",
+            "bridges": "true",
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "depth": 12,
+            "width": 250,
+            "height": 250
+        }
+    ]
+}
