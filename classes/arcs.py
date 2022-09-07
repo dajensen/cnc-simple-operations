@@ -26,18 +26,18 @@ def comment(str = None):
 
 def move_to(x, y, z = None):
     if z == None:
-        print("G01 X{:.4f} Y{:.4f}".format(x, y))
+        print("G01 X{:.6f} Y{:.6f}".format(x, y))
     else:
-        print("G01 X{:.4f} Y{:.4f} Z{:.4f}".format(x, y, z))
+        print("G01 X{:.6f} Y{:.6f} Z{:.6f}".format(x, y, z))
 
 def set_z(z):
-        print("G01 Z{:.4f}".format(z))
+        print("G01 Z{:.6f}".format(z))
 
 def arc_to(x, y, center_x, center_y, clockwise):
     if clockwise:
-        print("G02 I{:.4f} J{:.4f} X{:.4f} Y{:.4f} P1".format(center_x, center_y, x, y))
+        print("G02 I{:.6f} J{:.6f} X{:.6f} Y{:.6f}".format(center_x, center_y, x, y))
     else:
-        print("G03 I{:.4f} J{:.4f} X{:.4f} Y{:.4f} P1".format(center_x, center_y, x, y))
+        print("G03 I{:.6f} J{:.6f} X{:.6f} Y{:.6f}".format(center_x, center_y, x, y))
 
 def gcode_arc(start, center, end, z, clockwise):
     if end == None:
