@@ -117,9 +117,9 @@ class CncOvalOutline(CncCut):
     def exec(self, stock, tool, job):
         # print('CncRect exec {0}'.format(self.name))
         if self.bridges:
-            cut_oval_with_tabs(Cncrect(self.x, self.y, self.width, self.height), self.depth, job.depth_per_pass, tool.diameter, job.tab_width, job.tab_height)
+            cut_oval_with_tabs(Cncrect(self.x, self.y, self.width, self.height), self.rounded_axis == 'x', self.depth, job.depth_per_pass, tool.diameter, job.tab_width, job.tab_height)
         else:
-            cut_oval(Cncrect(self.x, self.y, self.width, self.height), self.depth, job.depth_per_pass, tool.diameter)
+            cut_oval(Cncrect(self.x, self.y, self.width, self.height), self.rounded_axis == 'x', self.depth, job.depth_per_pass, tool.diameter)
 
 
 # Exception and error handling

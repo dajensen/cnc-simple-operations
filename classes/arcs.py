@@ -18,17 +18,37 @@ def pol2cart(radius, angle):
     y = radius * np.sin(angle)
     return(x, y)
 
+def comment(str = None):
+    if str:
+        print("( {} )".format(str))
+    else:
+        print("")
 
-def gcode_arc(start, center, z, end=None):
+def move_to(x, y, z = None):
+    if z == None:
+        print("G01 X{:.4f} Y{:.4f}".format(x, y))
+    else:
+        print("G01 X{:.4f} Y{:.4f} Z{:.4f}".format(x, y, z))
+
+def set_z(z):
+        print("G01 Z{:.4f}".format(z))
+
+def arc_to(x, y, center_x, center_y, clockwise):
+    if clockwise:
+        print("G02 I{:.4f} J{:.4f} X{:.4f} Y{:.4f} P1".format(center_x, center_y, x, y))
+    else:
+        print("G03 I{:.4f} J{:.4f} X{:.4f} Y{:.4f} P1".format(center_x, center_y, x, y))
+
+def gcode_arc(start, center, end, z, clockwise):
     if end == None:
         end = start
-    print("")
-    print("G01 X{:.4f} Y{:.4f}".format(start.x, start.y))
-    print("G01 Z{:.4f}".format(z))
-    print("G02 I{:.4f} J{:.4f} X{:.4f} Y{:.4f}".format(center.x - start.x, center.y - start.y, end.x, end.y))
+    comment()
+    move_to(start.x, start.y)
+    set_z(-z)
+    arc_to(end.x, end.y, center.x, center.y, clockwise)
     retract(SAFE_HEIGHT)
 
-def cut_arc_on_plane(arc_width, start, center, z, cutter_diameter, end=None):
+def cut_arc_on_plane(arc_width, start, center, z, cutter_diameter, end, clockwise):
     if end == None:
         end = start
 
@@ -42,59 +62,39 @@ def cut_arc_on_plane(arc_width, start, center, z, cutter_diameter, end=None):
     while diff > 0:
         start_x_offset, start_y_offset = pol2cart(radius_this_pass, angle_start)
         end_x_offset, end_y_offset = pol2cart(radius_this_pass, angle_end)
-        gcode_arc(Cncpoint(center.x + start_x_offset, center.y + start_y_offset), center, z, Cncpoint(center.x + end_x_offset, center.y + end_y_offset))
+        gcode_arc(Cncpoint(center.x + start_x_offset, center.y + start_y_offset), center, Cncpoint(center.x + end_x_offset, center.y + end_y_offset), z, clockwise)
         diff = min(cutter_diameter / 2, outer_radius - radius_this_pass)
         radius_this_pass += diff
     
-def cut_arc(arc_width, start, center, cutter_diameter, depth, depth_per_pass, end=None):
+def cut_arc(arc_width, start, center, cutter_diameter, depth, depth_per_pass, end, clockwise):
     zpos = 0    # This is not correct, but it will work for now
     diff = min(depth_per_pass, depth + zpos)
     while diff > 0:
         zpos = zpos - diff
-        cut_arc_on_plane(arc_width, start, center, zpos, cutter_diameter, end)
+        cut_arc_on_plane(arc_width, start, center, zpos, cutter_diameter, end, clockwise)
         diff = min(depth_per_pass, depth + zpos)
 
 def cut_circle_on_plane(center, diameter, z, steps, cutter_diameter):
-    radius_increment = cutter_diameter / steps
-    angle_increment = -2*math.pi / steps
-    radius = radius_increment
-    angle = 0
+    comment("Circle")
+    move_to(center.x, center.y)
+    set_z(z)
 
-    x, y = pol2cart(radius, angle)
-    print("")
-    print("G01 X{:.4f} Y{:.4f}".format(center.x, center.y))
-    print("G01 Z{:.4f}".format(z))
-
-    print("G91 ( relative mode)")
+    prevradius = 0
+    radius = cutter_diameter / 4
+    sign = 1
 
     while radius <= diameter / 2 - cutter_diameter / 2:
-        last_x = x
-        last_y = y
-        angle += angle_increment
-        radius += radius_increment
-        x, y = pol2cart(radius, angle)
-        print("G02 X{:.4f} Y{:.4f} R{:.4f}".format(x - last_x, y - last_y, radius))
+        arc_to(center.x + sign * radius, center.y, sign * (radius + prevradius)/2, 0, True)
+        prevradius = radius
+        radius += cutter_diameter / 4
+        sign = sign * -1
 
-    print("G90 ( back to absolute mode)")
-    # Calculate the point where we should currently be (in case of any accumulated error during the relative motion)
-    x, y = pol2cart(radius, angle)
-    x += center.x
-    y += center.y
-    print("G01 X{:.4f} Y{:.4f}".format(x, y))
-
-    # Do half a circle around the outside edge
-    angle += math.pi
-    x, y = pol2cart(radius, angle)
-    x += center.x
-    y += center.y
-    print("G02 I{:.4f} J{:.4f} X{:.4f} Y{:.4f} P1".format(x - center.x, y - center.y, x, y))
-
-    # do the other half of the circle
-    angle += math.pi
-    x, y = pol2cart(radius, angle)
-    x += center.x
-    y += center.y
-    print("G02 I{:.4f} J{:.4f} X{:.4f} Y{:.4f} P1".format(x - center.x, y - center.y, x, y))
+    # Do the outside edge
+    radius = diameter / 2 - cutter_diameter / 2
+    for n in range(3):
+        arc_to(center.x + sign * radius, center.y, sign * (radius + prevradius)/2, 0, True)
+        prevradius = radius    
+        sign = sign * -1
 
     retract(SAFE_HEIGHT)
 

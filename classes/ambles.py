@@ -12,6 +12,7 @@ G01 F3000.00000 ( A high feed rate, NOT SUITABLE for circuit boards )
 
 (Spindle on, clockwise)
 M03
+G00 X0 Y0 Z25 ( home and at safe height)
 
 """)
 

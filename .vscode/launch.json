@@ -12,8 +12,8 @@
             "console": "integratedTerminal",
             "justMyCode": true,
             "args": [
-                "jigdefs/OvalWasher.json",
-                ">","output/OvalWasher.gc"
+                "jigdefs/ScrewHoleJig.json",
+                ">","output/ScrewHoleJig.gc"
             ]
         }
     ]
