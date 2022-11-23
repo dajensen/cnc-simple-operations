@@ -8,7 +8,7 @@ G94 ( Millimeters per minute feed rate. )
 G21 ( Units == Millimeters. )
 G90 ( Absolute coordinates. )
 G00 S24000 ( RPM spindle speed. )
-G01 F3000.00000 ( A high feed rate, NOT SUITABLE for circuit boards )
+G01 F3000.00000 ( Feed rate )
 
 (Spindle on, clockwise)
 M03
@@ -24,4 +24,3 @@ G00 X0 Y0      ( return home )
 
 M02 ( Program end. )
 """)
-

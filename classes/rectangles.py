@@ -4,6 +4,8 @@ from collections import namedtuple
 from .travel import retract
 from .point import Cncpoint, Cncpoint3d
 from .line import cut_polyline, cut_polyline3d
+import math
+from .arcs import move_to, set_z, arc_to_yz
 
 
 SAFE_HEIGHT = 5
@@ -179,3 +181,98 @@ def cut_outline_with_tabs(rect, depth, depth_per_pass, cutter_diameter, tab_widt
 #        print("( diff: {} {})".format(diff, depth + zpos))
     retract(SAFE_HEIGHT)
 
+def clear_y_ramp(rect, bottom_y_min, bottom_y_max, cutter_diameter, start_z, depth, depth_per_pass):
+    cut_depth = 0
+    zdiff = min(depth_per_pass, depth - cut_depth)
+    while zdiff > 0:
+        cut_depth = cut_depth + zdiff
+        zpos = cut_depth + start_z
+        proportion = cut_depth / depth
+        ymin = rect.y + proportion * (bottom_y_min - rect.y)
+        ymax = rect.y + rect.y_ext + proportion * (bottom_y_max - (rect.y + rect.y_ext))
+        print("( zpos: {}, proportion: {}, ymin: {}, ymax: {})".format(zpos, proportion, ymin, ymax))
+        rcplane = Cncrect(rect.x, ymin, rect.x_ext, ymax-ymin)
+        clear_rect_on_plane(rcplane, zpos, cutter_diameter)
+        zdiff = min(depth_per_pass, depth - cut_depth)
+    retract(SAFE_HEIGHT)
+
+def contour_y_ramp(rect, bottom_y_min, bottom_y_max, cutter_diameter, start_z, depth, depth_per_pass):
+
+    rcpath = shrink_rect(rect, cutter_diameter)
+    if bottom_y_min > rcpath.y + rcpath.y_ext:
+        bottom_y_min = rcpath.y + rcpath.y_ext
+    if bottom_y_min < rcpath.y:
+        bottom_y_min = rcpath.y
+
+    if bottom_y_max > rcpath.y + rcpath.y_ext:
+        bottom_y_max = rcpath.y + rcpath.y_ext
+    if bottom_y_max < rcpath.y:
+        bottom_y_max = rcpath.y
+
+    cut_depth = 0
+    zdiff = min(depth_per_pass, depth - cut_depth)
+    while zdiff > 0:
+        cut_depth = cut_depth + zdiff
+        zpos = cut_depth + start_z
+        proportion = cut_depth / depth
+        ymin = rcpath.y + proportion * (bottom_y_min - rcpath.y)
+        ymax = rcpath.y + rcpath.y_ext + proportion * (bottom_y_max - (rcpath.y + rcpath.y_ext))
+        print("( zpos: {}, proportion: {}, ymin: {}, ymax: {})".format(zpos, proportion, ymin, ymax))
+        rcplane = Cncrect(rcpath.x, ymin, rcpath.x_ext, ymax-ymin)
+        shrink_rect(rcplane, cutter_diameter)
+        outline_rect(rcplane, zpos)
+        zdiff = min(depth_per_pass, depth - cut_depth)
+    retract(SAFE_HEIGHT)
+
+def roundover(rect, radius, cutter_diameter, start_z, depth):
+    # When we run this, I'm figuring that there has already been some rough clearing done, so we don't end up plunging the bit too deeply into the material
+    # This method does not account for any clearing, just for trimming a square edge into a rounded one.
+    # Using radians here, not degrees.
+    cutter_radius = cutter_diameter / 2
+    max_arc_len = cutter_diameter / 16
+    stop_point = math.asin(cutter_radius / (radius + cutter_radius))                      # want to stop before doing the whole quarter circle, because that would have the tip of the bit going below the bottom of the roundover.
+#    print("stop_point: {}".format(stop_point))
+    total_arc_len = (math.pi / 2  - stop_point) * radius
+#    print("total_arc_len: {}".format(total_arc_len))
+
+    num_cuts = int(total_arc_len / max_arc_len) + 1
+    angle_per_cut = (math.pi / 2 - stop_point) / num_cuts
+#    print("num_cuts: {}, angle_per_cut: {}".format(num_cuts, angle_per_cut))
+
+    x_ends = [rect.x + cutter_radius, rect.x + rect.x_ext - cutter_radius]
+    end = 0
+
+    set_z(SAFE_HEIGHT)
+    move_to(x_ends[end], rect.y)
+    move_to(x_ends[end], rect.y, start_z)
+
+    for idx in range(num_cuts + 1):
+        angle = math.pi / 2 - idx * angle_per_cut
+        yloc = rect.y + radius * math.cos(angle)
+        zloc = start_z - radius + radius * math.sin(angle)
+        print("( angle: {}, yloc: {}, zloc: {} )".format(angle, yloc, zloc))
+
+        # yloc and zloc are points on the circle, not the location of the tip of the cutting tool.
+        # now we need to add offsets for the cutting tool so that the circle actually gets created right.
+        # I'm assuming a ball end cutter here
+        # theta for the cutter should be the complemetary angle for theta of the roundover
+        cutter_y = cutter_radius * math.cos(angle)
+        cutter_z = cutter_radius - (cutter_radius * math.sin(angle))
+        print("( offset angle: {}, y offset: {}, z offset: {} )".format(angle, cutter_y, cutter_z))
+
+        ycarve = yloc + cutter_y
+        zcarve = zloc - cutter_z
+#        ycarve = yloc
+#        zcarve = zloc
+        
+#        if zcarve < start_z - depth:
+#            break
+
+        move_to(x_ends[end], ycarve, zcarve + 2)
+        move_to(x_ends[end], ycarve, zcarve)
+
+        end = not end
+        move_to(x_ends[end], ycarve, zcarve)
+        move_to(x_ends[end], ycarve, zcarve + 2)
+
+    retract(SAFE_HEIGHT)

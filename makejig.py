@@ -3,9 +3,11 @@
 import sys
 import json
 from classes.ambles import emit_preamble, emit_postamble
-from classes.rectangles import Cncrect, clear_rect, cut_outline, cut_outline_with_tabs
+from classes.rectangles import Cncrect, clear_rect, cut_outline, cut_outline_with_tabs, clear_y_ramp, contour_y_ramp, roundover
 from classes.arcs import Cncpoint, cut_circle, cut_arc
 from classes.ovals import cut_oval, cut_oval_with_tabs
+from classes.drill import peckdrill
+from classes.line import line
 
 class StockInfo:
 
@@ -33,6 +35,10 @@ class CncCut:
             self.name = cut["name"]
         else:
             self.name = "(unnamed)"
+        if "disabled" in cut:
+            self.disabled = cut['disabled']
+        else:
+            self.disabled = False
         try:
             if not "x" in vars(self):
                 self.x = cut['x']
@@ -49,11 +55,12 @@ class CncCut:
         except AttributeError:
             dump_attribute_exception(self.name)
 
-        if "cuts" in cut:
-            self.cuts = []
-            for childcut in cut["cuts"]:
-                newcut = load_cut(childcut)
-                self.cuts.append(newcut)
+        if not self.disabled:
+            if "cuts" in cut:
+                self.cuts = []
+                for childcut in cut["cuts"]:
+                    newcut = load_cut(childcut)
+                    self.cuts.append(newcut)
 
     def exec(self, stock, tool, job):
         raise ValueError('Unknown type of CncCut for object named \"{0}\"'.format(self.name))
@@ -64,8 +71,9 @@ class CncRect(CncCut):
         super().__init__(cut)
 
     def exec(self, stock, tool, job):
-        # print('CncRect exec {0}'.format(self.name))
-        clear_rect(Cncrect(self.x, self.y, self.width, self.height), tool.diameter, self.depth, job.depth_per_pass)
+        if not self.disabled:
+            # print('CncRect exec {0}'.format(self.name))
+            clear_rect(Cncrect(self.x, self.y, self.width, self.height), tool.diameter, self.depth, job.depth_per_pass)
 
 class CncCircle(CncCut):
 
@@ -82,8 +90,9 @@ class CncCircle(CncCut):
         super().__init__(cut)
 
     def exec(self, stock, tool, job):
-        #print('CncCircle exec {0}'.format(self.name))
-        cut_circle(Cncpoint(self.x, self.y), self.diameter, self.depth, job.depth_per_pass, tool.diameter)
+        if not self.disabled:
+            #print('CncCircle exec {0}'.format(self.name))
+            cut_circle(Cncpoint(self.x, self.y), self.diameter, self.z, self.depth, job.depth_per_pass, tool.diameter)
 
 class CncOutline(CncCut):
 
@@ -94,11 +103,11 @@ class CncOutline(CncCut):
             self.bridges = cut["bridges"].lower() == "true"
 
     def exec(self, stock, tool, job):
-        # print('CncRect exec {0}'.format(self.name))
-        if self.bridges:
-            cut_outline_with_tabs(Cncrect(self.x, self.y, self.width, self.height), self.depth, job.depth_per_pass, tool.diameter, job.tab_width, job.tab_height)
-        else:
-            cut_outline(Cncrect(self.x, self.y, self.width, self.height), self.depth, job.depth_per_pass, tool.diameter)
+        if not self.disabled:
+            if self.bridges:
+                cut_outline_with_tabs(Cncrect(self.x, self.y, self.width, self.height), self.depth, job.depth_per_pass, tool.diameter, job.tab_width, job.tab_height)
+            else:
+                cut_outline(Cncrect(self.x, self.y, self.width, self.height), self.depth, job.depth_per_pass, tool.diameter)
 
 class CncOvalOutline(CncCut):
 
@@ -115,12 +124,105 @@ class CncOvalOutline(CncCut):
             raise ValueError("Oval object \"{0}\" has invalid value for rounded_axis.  Must be \"x\" or \"y\".".format(self.name))
 
     def exec(self, stock, tool, job):
-        # print('CncRect exec {0}'.format(self.name))
-        if self.bridges:
-            cut_oval_with_tabs(Cncrect(self.x, self.y, self.width, self.height), self.rounded_axis == 'x', self.depth, job.depth_per_pass, tool.diameter, job.tab_width, job.tab_height)
-        else:
-            cut_oval(Cncrect(self.x, self.y, self.width, self.height), self.rounded_axis == 'x', self.depth, job.depth_per_pass, tool.diameter)
+        if not self.disabled:
+            if self.bridges:
+                cut_oval_with_tabs(Cncrect(self.x, self.y, self.width, self.height), self.rounded_axis == 'x', self.depth, job.depth_per_pass, tool.diameter, job.tab_width, job.tab_height)
+            else:
+                cut_oval(Cncrect(self.x, self.y, self.width, self.height), self.rounded_axis == 'x', self.depth, job.depth_per_pass, tool.diameter)
 
+class CncRampClearingY(CncCut):
+
+    def __init__(self, cut):
+        try:
+            self.depth_step = cut['depth_step']
+            self.bottom_y_min = cut['bottom_y_min']
+            self.bottom_y_max = cut['bottom_y_max']
+        except AttributeError:
+            dump_attribute_exception(self.name)
+        super().__init__(cut)
+
+    def exec(self, stock, tool, job):
+        if not self.disabled:
+            # print('CncRect exec {0}'.format(self.name))
+            clear_y_ramp(Cncrect(self.x, self.y, self.width, self.height), 
+                        self.bottom_y_min, self.bottom_y_max, tool.diameter, self.z, self.depth, self.depth_step)
+
+class CncRampContourY(CncCut):
+
+    def __init__(self, cut):
+        try:
+            self.depth_step = cut['depth_step']
+            self.bottom_y_min = cut['bottom_y_min']
+            self.bottom_y_max = cut['bottom_y_max']
+        except AttributeError:
+            dump_attribute_exception(self.name)
+        super().__init__(cut)
+
+    def exec(self, stock, tool, job):
+        if not self.disabled:
+            # print('CncRect exec {0}'.format(self.name))
+            contour_y_ramp(Cncrect(self.x, self.y, self.width, self.height), 
+                        self.bottom_y_min, self.bottom_y_max, tool.diameter, self.z, self.depth, self.depth_step)
+
+class CncRoundover(CncCut):
+
+    def __init__(self, cut):
+        try:
+            self.radius = cut['radius']
+        except AttributeError:
+            dump_attribute_exception(self.name)
+        super().__init__(cut)
+
+    def exec(self, stock, tool, job):
+        if not self.disabled:
+            # print('CncRect exec {0}'.format(self.name))
+            roundover(Cncrect(self.x, self.y, self.width, self.height), self.radius,
+                        tool.diameter, self.z, self.depth)
+
+class CncPeckDrill(CncCut):
+
+    def __init__(self, cut):
+        try:
+            self.x = cut['center_x']
+            self.y = cut['center_y']
+            self.width = 0
+            self.height = 0
+            self.depth_per_pass = cut['depth_per_pass']
+            self.retract_height = cut['retract_height']
+            self.feedrate = cut['feedrate']
+        except AttributeError:
+            dump_attribute_exception(self.name)
+        super().__init__(cut)
+
+    def exec(self, stock, tool, job):
+        if not self.disabled:
+            # print('CncRect exec {0}'.format(self.name))
+            peckdrill(Cncrect(self.x, self.y, self.width, self.height), 
+                self.z, self.depth, self.depth_per_pass, self.retract_height,self.feedrate )
+
+class CncLine(CncCut):
+
+    def __init__(self, cut):
+        try:
+            self.name = cut['name']
+            self.x1 = cut['x1']
+            self.y1 = cut['y1']
+            self.x2 = cut['x2']
+            self.y2 = cut['y2']
+            self.x = self.x1
+            self.y = self.y1
+            self.depth = cut['depth']
+            self.width = abs(self.x2-self.x1)
+            self.height = abs(self.y2-self.y1)
+            self.depth_per_pass = cut['depth_per_pass']
+        except AttributeError:
+            dump_attribute_exception(self.name)
+        super().__init__(cut)
+
+    def exec(self, stock, tool, job):
+        if not self.disabled:
+#            print('CncLine exec {0}'.format(self.name))
+            line(self.x1, self.y1, self.z, self.x2, self.y2, self.depth, self.depth_per_pass)
 
 # Exception and error handling
 def dump_exception():
@@ -182,6 +284,16 @@ def load_cut(cutnode):
             rv = CncCircle(cutnode)
         elif(cutnode['type'] == 'oval_outline'):
             rv = CncOvalOutline(cutnode)
+        elif(cutnode['type'] == 'ramp_clearing_y'):
+            rv = CncRampClearingY(cutnode)
+        elif(cutnode['type'] == 'ramp_contour_y'):
+            rv = CncRampContourY(cutnode)
+        elif(cutnode['type'] == 'roundover'):
+            rv = CncRoundover(cutnode)
+        elif(cutnode['type'] == 'peckdrill'):
+            rv = CncPeckDrill(cutnode)
+        elif(cutnode['type'] == 'line'):
+            rv = CncLine(cutnode)
         else:
             rv =CncCut(cutnode)
     except AttributeError:

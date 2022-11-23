@@ -1,0 +1,64 @@
+{
+    "stock": {
+        "comments": [
+            "This includes the space around the edges that is used to fasten the stock to the spoilboard",
+            "This stock is plywood that is nominally 1/2\" thick, but it's actually a little undersized."
+        ],
+        "x": 460,
+        "y": 70,
+        "z": 30.5
+    },
+    "tool": {
+        "comments": "This is 1/4\" diameter", 
+        "diameter": 6.35,
+        "type": "Ball end"
+    },
+    "job": {
+        "comments": "Before running this toolpath, you should run NickLampBaseMolding-Roughing to cut the square bottom slots",
+        "depth_per_pass": 3,
+        "tab_width": 0,
+        "tab_height": 0
+    },
+    "cuts": [
+        {
+            "disabled": false,
+            "name": "ramp clearing",
+            "type": "ramp_clearing_y",
+            "x": 0,
+            "y": 28.575,
+            "z": 6.35,
+            "depth": 17.8,
+            "width": 360,
+            "height": 41.425,
+            "depth_step": 2,
+            "bottom_y_min": 70,
+            "bottom_y_max": 70
+        },
+        {
+            "disabled": false,
+            "comments": "This is a finishing step so it's moving 1/32\" to leave a relatively flat surface.",
+            "name": "ramp finishing",
+            "type": "ramp_contour_y",
+            "x": 0,
+            "y": 28.575,
+            "z": 6.35,
+            "depth": 17.8,
+            "width": 360,
+            "height": 41.425,
+            "depth_step": 0.2,
+            "bottom_y_min": 70,
+            "bottom_y_max": 70
+        },
+        {
+            "name": "quarter inch roundover",
+            "type": "roundover",
+            "x": 0,
+            "y": 19.05,
+            "z": 0,
+            "depth": 6.35,
+            "width": 360,
+            "height": 6.35,
+            "radius": 6.35
+        }
+    ]
+}

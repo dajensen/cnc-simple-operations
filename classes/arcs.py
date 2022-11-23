@@ -5,6 +5,7 @@ import math
 import numpy as np
 from .travel import retract
 from .point import Cncpoint
+from .line import comment
 
 SAFE_HEIGHT = 5
 
@@ -18,12 +19,6 @@ def pol2cart(radius, angle):
     y = radius * np.sin(angle)
     return(x, y)
 
-def comment(str = None):
-    if str:
-        print("( {} )".format(str))
-    else:
-        print("")
-
 def move_to(x, y, z = None):
     if z == None:
         print("G01 X{:.6f} Y{:.6f}".format(x, y))
@@ -31,13 +26,22 @@ def move_to(x, y, z = None):
         print("G01 X{:.6f} Y{:.6f} Z{:.6f}".format(x, y, z))
 
 def set_z(z):
-        print("G01 Z{:.6f}".format(z))
+        print("G00 Z{:.6f}".format(z))
 
 def arc_to(x, y, center_x, center_y, clockwise):
     if clockwise:
         print("G02 I{:.6f} J{:.6f} X{:.6f} Y{:.6f}".format(center_x, center_y, x, y))
     else:
         print("G03 I{:.6f} J{:.6f} X{:.6f} Y{:.6f}".format(center_x, center_y, x, y))
+
+# an arc in the yz plane
+def arc_to_yz(y, z, center_y, center_z, clockwise):
+    print ("G19 ( arcs in YZ plane )")
+    if clockwise:
+        print("G02 J{:.6f} K{:.6f} Y{:.6f} Z{:.6f}".format(center_y, center_z, y, z))
+    else:
+        print("G03 J{:.6f} K{:.6f} Y{:.6f} Z{:.6f}".format(center_y, center_z, y, z))
+    print ("G17 ( back to default arcs in XY plane )")
 
 def gcode_arc(start, center, end, z, clockwise):
     if end == None:
@@ -74,10 +78,10 @@ def cut_arc(arc_width, start, center, cutter_diameter, depth, depth_per_pass, en
         cut_arc_on_plane(arc_width, start, center, zpos, cutter_diameter, end, clockwise)
         diff = min(depth_per_pass, depth + zpos)
 
-def cut_circle_on_plane(center, diameter, z, steps, cutter_diameter):
+def cut_circle_on_plane(center, diameter, z, cutter_diameter):
     comment("Circle")
     move_to(center.x, center.y)
-    set_z(z)
+    set_z(-z)
 
     prevradius = 0
     radius = cutter_diameter / 4
@@ -96,14 +100,13 @@ def cut_circle_on_plane(center, diameter, z, steps, cutter_diameter):
         prevradius = radius    
         sign = sign * -1
 
+
+def cut_circle(center, diameter, start_z, depth, depth_per_pass, cutter_diameter):
+    comment()
+    comment("Cut circle")
+    zpos = start_z
+    while zpos < start_z + depth:
+        zpos = min(zpos + depth_per_pass, start_z + depth)
+        cut_circle_on_plane(center, diameter, zpos, cutter_diameter)
+
     retract(SAFE_HEIGHT)
-
-
-def cut_circle(center, diameter, depth, depth_per_pass, cutter_diameter):
-    print("( Cut circle )")
-    zpos = 0    # This is not    diff = min(depth_per_pass, depth + zpos)
-    diff = min(depth_per_pass, depth + zpos)
-    while diff > 0:
-        zpos = zpos - diff
-        cut_circle_on_plane(center, diameter, zpos, 10, cutter_diameter)
-        diff = min(depth_per_pass, depth + zpos)

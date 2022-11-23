@@ -1,0 +1,93 @@
+{
+    "stock": {
+        "comments": [
+            "This includes the space around the edges that is used to fasten the stock to the spoilboard",
+            "This stock is plywood that is nominally 1/2\" thick, but it's actually a little undersized."
+        ],
+        "x": 435,
+        "y": 25.4,
+        "z": 32
+    },
+    "tool": {
+        "comments": "This is a 1/4\" end mill", 
+        "diameter": 6.35
+    },
+    "job": {
+        "comments": "We can safely cut deeper than this, but the plywood tears out if the first cut is too deep.,",
+        "depth_per_pass": 3,
+        "tab_width": 0,
+        "tab_height": 0
+    },
+    "cuts": [
+        {
+            "name": "Tail",
+            "type": "rect",
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "depth": 3.175,
+            "width": 50.8,
+            "height": 25.4
+        },
+        {
+            "name": "Body Rectangle",
+            "type": "rect",
+            "x": 0,
+            "y": 31.75,
+            "z": 0,
+            "depth": 3.175,
+            "width": 50.8,
+            "height": 34
+        },
+        {
+            "name": "Rounded Top",
+            "type": "circle",
+            "center_x": 25.4,
+            "center_y": 64.75,
+            "diameter": 22,
+            "z": 0,
+            "depth": 3.175
+        },
+        {
+            "name": "Brass Insert Pilot Hole",
+            "type": "circle",
+            "center_x": 25.4,
+            "center_y": 64.75,
+            "diameter": 10,
+            "z": 3.175,
+            "depth": 12.7
+        },
+        {
+            "name": "Brass Insert Screw Hole",
+            "type": "peckdrill",
+            "center_x": 25.4,
+            "center_y": 64.75,
+            "z": 3.175,
+            "depth": 15.875,
+            "depth_per_pass": 3.175,
+            "retract_height": 0,
+            "feedrate": 600
+        },
+        {
+            "name": "Rail Screw enlargement",
+            "type": "circle",
+            "center_x": 25.4,
+            "center_y": 28.575,
+            "diameter": 8,
+            "z": 0,
+            "depth": 6.35
+        },
+        {
+            "name": "Rail Screw Hole",
+            "type": "peckdrill",
+            "center_x": 25.4,
+            "center_y": 28.575,
+            "z": 0,
+            "depth": 19.05,
+            "depth_per_pass": 3.175,
+            "retract_height": 0,
+            "feedrate": 600
+        }
+
+    ]
+}

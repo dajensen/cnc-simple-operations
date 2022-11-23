@@ -8,13 +8,9 @@
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
-            "program": "${workspaceFolder}/makejig.py",
+            "program": "${workspaceFolder}/readsvg.py",
             "console": "integratedTerminal",
-            "justMyCode": true,
-            "args": [
-                "jigdefs/${fileBasenameNoExtension}.json",
-                ">","output/${fileBasenameNoExtension}.gc"
-            ]
+            "justMyCode": false
         }
     ]
 }

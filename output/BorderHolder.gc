@@ -1,0 +1,137 @@
+( Stock dimensions: 435, 25.4, 32 )
+( Tool diameter: 6.35 )
+( Job depth per pass: 3 )
+( Total cuts: 1 )
+( Executing all )
+
+( simple_operations by dave jensen )
+( Software-independent Gcode )
+
+G94 ( Millimeters per minute feed rate. )
+G21 ( Units == Millimeters. )
+G90 ( Absolute coordinates. )
+G00 S24000 ( RPM spindle speed. )
+G01 F3000.00000 ( A high feed rate, NOT SUITABLE for circuit boards )
+
+(Spindle on, clockwise)
+M03
+G00 X0 Y0 Z25 ( home and at safe height)
+
+
+
+( Outlining rect x:3.175 y:3.175 width:453.65 height:0.010000000000000675 )
+( Cutting polyline )
+G01 X3.1750 Y3.1750
+G01 Z-3.0000
+G01 X3.1750 Y3.1850
+G01 X456.8250 Y3.1850
+G01 X456.8250 Y3.1750
+G01 X3.1750 Y3.1750
+( End polyline )
+
+( Outlining rect x:3.175 y:3.175 width:453.65 height:0.010000000000000675 )
+( Cutting polyline )
+G01 X3.1750 Y3.1750
+G01 Z-6.0000
+G01 X3.1750 Y3.1850
+G01 X456.8250 Y3.1850
+G01 X456.8250 Y3.1750
+G01 X3.1750 Y3.1750
+( End polyline )
+
+( Outlining rect x:3.175 y:3.175 width:453.65 height:0.010000000000000675 )
+( Cutting polyline )
+G01 X3.1750 Y3.1750
+G01 Z-9.0000
+G01 X3.1750 Y3.1850
+G01 X456.8250 Y3.1850
+G01 X456.8250 Y3.1750
+G01 X3.1750 Y3.1750
+( End polyline )
+
+( Outlining rect x:3.175 y:3.175 width:453.65 height:0.010000000000000675 )
+( Cutting polyline )
+G01 X3.1750 Y3.1750
+G01 Z-12.0000
+G01 X3.1750 Y3.1850
+G01 X456.8250 Y3.1850
+G01 X456.8250 Y3.1750
+G01 X3.1750 Y3.1750
+( End polyline )
+
+( Outlining rect x:3.175 y:3.175 width:453.65 height:0.010000000000000675 )
+( Cutting polyline )
+G01 X3.1750 Y3.1750
+G01 Z-15.0000
+G01 X3.1750 Y3.1850
+G01 X456.8250 Y3.1850
+G01 X456.8250 Y3.1750
+G01 X3.1750 Y3.1750
+( End polyline )
+
+( Outlining rect x:3.175 y:3.175 width:453.65 height:0.010000000000000675 )
+( Cutting polyline )
+G01 X3.1750 Y3.1750
+G01 Z-18.0000
+G01 X3.1750 Y3.1850
+G01 X456.8250 Y3.1850
+G01 X456.8250 Y3.1750
+G01 X3.1750 Y3.1750
+( End polyline )
+
+( Outlining rect x:3.175 y:3.175 width:453.65 height:0.010000000000000675 )
+( Cutting polyline )
+G01 X3.1750 Y3.1750
+G01 Z-21.0000
+G01 X3.1750 Y3.1850
+G01 X456.8250 Y3.1850
+G01 X456.8250 Y3.1750
+G01 X3.1750 Y3.1750
+( End polyline )
+
+( Outlining rect x:3.175 y:3.175 width:453.65 height:0.010000000000000675 )
+( Cutting polyline )
+G01 X3.1750 Y3.1750
+G01 Z-24.0000
+G01 X3.1750 Y3.1850
+G01 X456.8250 Y3.1850
+G01 X456.8250 Y3.1750
+G01 X3.1750 Y3.1750
+( End polyline )
+
+( Outlining rect x:3.175 y:3.175 width:453.65 height:0.010000000000000675 )
+( Cutting polyline )
+G01 X3.1750 Y3.1750
+G01 Z-27.0000
+G01 X3.1750 Y3.1850
+G01 X456.8250 Y3.1850
+G01 X456.8250 Y3.1750
+G01 X3.1750 Y3.1750
+( End polyline )
+
+( Outlining rect x:3.175 y:3.175 width:453.65 height:0.010000000000000675 )
+( Cutting polyline )
+G01 X3.1750 Y3.1750
+G01 Z-30.0000
+G01 X3.1750 Y3.1850
+G01 X456.8250 Y3.1850
+G01 X456.8250 Y3.1750
+G01 X3.1750 Y3.1750
+( End polyline )
+
+( Outlining rect x:3.175 y:3.175 width:453.65 height:0.010000000000000675 )
+( Cutting polyline )
+G01 X3.1750 Y3.1750
+G01 Z-32.0000
+G01 X3.1750 Y3.1850
+G01 X456.8250 Y3.1850
+G01 X456.8250 Y3.1750
+G01 X3.1750 Y3.1750
+( End polyline )
+G01 Z5.0000   ( retract to safe height )
+
+G00 Z25.000000 ( retract )
+G00 X0 Y0      ( return home )
+
+M02 ( Program end. )
+

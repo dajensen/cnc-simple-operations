@@ -1,0 +1,45 @@
+{
+    "stock": {
+        "comments": [
+            "This includes the space around the edges that is used to fasten the stock to the spoilboard",
+            "This stock is plywood that is nominally 1/2\" thick, but it's actually a little undersized."
+        ],
+        "x": 460,
+        "y": 70,
+        "z": 30.5
+    },
+    "tool": {
+        "comments": "This is 1/4\" diameter", 
+        "diameter": 6.35,
+        "type": "End mill"
+    },
+    "job": {
+        "comments": "We can safely cut deeper than this, but the plywood tears out if the first cut is too deep.,",
+        "depth_per_pass": 3,
+        "tab_width": 0,
+        "tab_height": 0
+    },
+    "cuts": [
+        {
+            "comments": "These should be 406 mm long in the end, but this is for testing.",
+            "name": "base_inset",
+            "type": "rect",
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "depth": 12.7,
+            "width": 360,
+            "height": 12.7
+        },
+        {
+            "name": "roundover_clearing",
+            "type": "rect",
+            "x": 0,
+            "y": 25.4,
+            "z": 0,
+            "depth": 6.35,
+            "width": 360,
+            "height": 44.6
+        } 
+    ]
+}

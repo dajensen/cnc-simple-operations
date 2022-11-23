@@ -1,0 +1,98 @@
+{
+    "stock": {
+        "comments": "Just run this directly on the spoilboard to make space to screw down the rotary axis",
+        "x": 160,
+        "y": 548,
+        "z": 10
+    },
+    "tool": {
+        "comments": "This is a 1/8 inch end mill", 
+        "diameter": 3.175
+    },
+    "job": {
+        "depth_per_pass": 3,
+        "tab_width": 0,
+        "tab_height": 0
+    },
+    "cuts": [
+        {
+            "name": "Tailstock Rect",
+            "type": "rect",
+            "x": 91.8,
+            "y": 0,
+            "z": 0,
+            "depth": 1,
+            "width": 25.4,
+            "height": 76.2,
+            "cuts": [
+                {
+                    "name": "Bottom Tailstock Hole",
+                    "type": "peckdrill",
+                    "center_x": 104.5,
+                    "center_y": 5,
+                    "z": 0,
+                    "depth": 10,
+                    "depth_per_pass": 3,
+                    "retract_height": 0,
+                    "feedrate": 600
+                },
+                {
+                    "name": "Top Tailstock Hole",
+                    "type": "peckdrill",
+                    "center_x": 104.5,
+                    "center_y": 71.2,
+                    "z": 0,
+                    "depth": 10,
+                    "depth_per_pass": 3,
+                    "retract_height": 0,
+                    "feedrate": 600
+                }
+            ]
+        },
+        {
+            "name": "Headstock Rect",
+            "type": "rect",
+            "x": 0,
+            "y": 512.8,
+            "z": 0,
+            "depth": 1,
+            "width": 159,
+            "height": 35,
+            "cuts": [
+                {
+                    "name": "Left Headstock Hole",
+                    "type": "peckdrill",
+                    "center_x": 4.5,
+                    "center_y": 528.4,
+                    "z": 0,
+                    "depth": 10,
+                    "depth_per_pass": 3,
+                    "retract_height": 0,
+                    "feedrate": 600
+                },
+                {
+                    "name": "Right Headstock Hole",
+                    "type": "peckdrill",
+                    "center_x": 154.5,
+                    "center_y": 528.4,
+                    "z": 0,
+                    "depth": 10,
+                    "depth_per_pass": 3,
+                    "retract_height": 0,
+                    "feedrate": 600
+                }
+            ]
+        },
+        {
+            "name": "Centerline",
+            "type": "line",
+            "x1": 104.5,
+            "y1": 0,
+            "x2":104.5,
+            "y2":544,
+            "z": 0,
+            "depth": 1,
+            "depth_per_pass": 1
+        }
+    ]
+}
