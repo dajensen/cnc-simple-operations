@@ -1,0 +1,100 @@
+{
+    "stock": {
+        "comments": [
+            "This includes the space around the edges that is used to fasten the stock to the spoilboard",
+            "This stock is plywood that is nominally 1/2\" thick, but it's actually a little undersized.",
+            "These stock dimensions include space for 1/4\" holddowns on the top and bottom, with a stop on the right side for x-axis alignment."
+        ],
+        "x": 110, 
+        "y": 80,
+        "z": 15
+    },
+    "tool": {
+        "comments": "Use a 1/8\" end mill", 
+        "diameter": 3.175
+    },
+    "job": {
+        "depth_per_pass": 2,
+        "tab_width": 4,
+        "tab_height": 2
+    },
+    "cuts": [
+        {
+            "name": "jig body",
+            "type": "outline",
+            "bridges": "true",
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "depth": 15,
+            "width": 60.6,
+            "height": 29.3,
+            "cuts": [
+                {
+                    "name": "USB outer",
+                    "type": "rect",
+                    "x": -3,
+                    "y": 7,
+                    "z": 0,
+                    "depth": 10.75,
+                    "width": 5,
+                    "height": 15.3
+                },
+                {
+                    "name": "USB inner",
+                    "type": "rect",
+                    "x": -3,
+                    "y": 9,
+                    "z": 0,
+                    "depth": 8.75,
+                    "width": 9,
+                    "height": 11.3
+                },
+                {
+                    "disabled": false,
+                    "name": "Led",
+                    "type": "rect",
+                    "x": 34,
+                    "y": -3,
+                    "z": 0,
+                    "depth": 9,
+                    "width": 7,
+                    "height": 10
+                },
+                {
+                    "disabled": false,
+                    "name": "Receiver",
+                    "type": "rect",
+                    "x": 45,
+                    "y": -3,
+                    "z": 0,
+                    "depth": 10,
+                    "width": 9,
+                    "height": 10
+                },
+                {
+                    "disabled": false,
+                    "name": "Inset for bottom",
+                    "type": "rect",
+                    "x": 2,
+                    "y": 2,
+                    "z": 0,
+                    "depth": 2,
+                    "width": 56.6,
+                    "height": 25.3
+                },
+                {
+                    "disabled": false,
+                    "name": "main board cavity",
+                    "type": "rect",
+                    "x": 4,
+                    "y": 4,
+                    "z": 0,
+                    "depth": 13,
+                    "width": 52.6,
+                    "height": 21.3
+                }
+            ]
+        }
+    ]
+}

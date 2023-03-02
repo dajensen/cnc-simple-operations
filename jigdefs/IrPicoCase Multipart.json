@@ -1,0 +1,225 @@
+{
+    "stock": {
+        "comments": [
+            "This includes the space around the edges that is used to fasten the stock to the spoilboard"
+        ],
+        "x": 110, 
+        "y": 215,
+        "z": 4
+    },
+    "tool": {
+        "comments": "Use a 2mm end mill", 
+        "diameter": 2
+    },
+    "job": {
+        "depth_per_pass": 1,
+        "tab_width": 4,
+        "tab_height": 1
+    },
+    "cuts": [
+        {
+            "name": "Top",
+            "type": "outline",
+            "bridges": true,
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "depth": 4,
+            "width": 61.5,
+            "height": 31.3,
+            "cuts": [
+                {
+                    "name": "Inner Groove For Sides",
+                    "type": "outline",
+                    "bridges": false,
+                    "x": 5,
+                    "y": 5,
+                    "z": 0,
+                    "depth": 2,
+                    "width": 51.5,
+                    "height": 21.3
+                },
+                {
+                    "name": "Outer Groove For Sides",
+                    "type": "outline",
+                    "bridges": false,
+                    "x": 4,
+                    "y": 4,
+                    "z": 0,
+                    "depth": 2,
+                    "width": 53.5,
+                    "height": 23.3
+                }
+            ]
+        },
+        {
+            "name": "Bottom",
+            "type": "outline",
+            "bridges": true,
+            "x": 0,
+            "y": 37,
+            "z": 0,
+            "depth": 4,
+            "width": 61.5,
+            "height": 31.3,
+            "cuts": [
+            {
+                "name": "Inner Groove For Sides",
+                "type": "outline",
+                "bridges": false,
+                "x": 5,
+                "y": 42,
+                "z": 0,
+                "depth": 2,
+                "width": 51.5,
+                "height": 21.3
+            },
+            {
+                "name": "Outer Groove For Sides",
+                "type": "outline",
+                "bridges": false,
+                "x": 4,
+                "y": 41,
+                "z": 0,
+                "depth": 2,
+                "width": 53.5,
+                "height": 23.3
+            },
+            {
+                "name": "Cutout for USB plug",
+                "type": "rect",
+                "x": 59.5,
+                "y": 44.65,
+                "z": 0,
+                "depth": 4,
+                "width": 4,
+                "height": 14
+            }
+
+        ]
+    },
+    {
+        "name": "Front",
+        "type": "outline",
+        "bridges": true,
+        "x": 70,
+        "y": 0,
+        "z": 0,
+        "depth": 4,
+        "width": 57.5,
+        "height": 16,
+        "cuts": [
+            {
+                "name": "Front Thinning",
+                "type": "rect",
+                "x": 68,
+                "y": -2,
+                "z": 0,
+                "depth": 1,
+                "width": 61.5,
+                "height": 20
+            },
+            {
+                "name": "LED",
+                "type": "circle",
+                "center_x": 89,
+                "center_y": 5.5,
+                "diameter": 7,
+                "z": 0,
+                "depth": 4
+            },
+            {
+                "name": "Receiver",
+                "type": "rect",
+                "x": 76.25,
+                "y": 2,
+                "z": 0,
+                "depth": 4,
+                "width": 7,
+                "height": 8.5
+            }
+        ]
+    },
+    {
+        "name": "Back",
+        "type": "outline",
+        "bridges": true,
+        "x": 70,
+        "y": 37,
+        "z": 0,
+        "depth": 4,
+        "width": 57.5,
+        "height": 16,
+        "cuts": [
+            {
+                "name": "Back Thinning",
+                "type": "rect",
+                "x": 68,
+                "y": 35,
+                "z": 0,
+                "depth": 1,
+                "width": 61.5,
+                "height": 20.3
+            }
+        ]
+    },
+    {
+        "name": "Left",
+        "type": "outline",
+        "bridges": true,
+        "x": 140,
+        "y": 0,
+        "z": 0,
+        "depth": 4,
+        "width": 21.3,
+        "height": 16,
+        "cuts": [
+            {
+                "name": "Left Thinning",
+                "type": "rect",
+                "x": 138,
+                "y": -2,
+                "z": 0,
+                "depth": 1,
+                "width": 27.3,
+                "height": 20
+            }
+        ]
+    },
+    {
+        "name": "Right",
+        "type": "outline",
+        "bridges": true,
+        "x": 140,
+        "y": 37,
+        "z": 0,
+        "depth": 4,
+        "width": 21.3,
+        "height": 16,
+        "cuts": [
+            {
+                "name": "Right Thinning",
+                "type": "rect",
+                "x": 138,
+                "y": 35,
+                "z": 0,
+                "depth": 1,
+                "width": 25.3,
+                "height": 20.3
+            },
+            {
+                "name": "USB",
+                "type": "rect",
+                "x": 146.4,
+                "y": 40,
+                "z": 0,
+                "depth": 4,
+                "width": 8.5,
+                "height": 4.25
+
+            }
+        ]
+    }
+
+    ]
+}
