@@ -2,12 +2,19 @@
 
 import sys
 import json
+import math
 from classes.ambles import emit_preamble, emit_postamble
 from classes.rectangles import Cncrect, clear_rect, cut_outline, cut_outline_with_tabs, clear_y_ramp, contour_y_ramp, roundover
-from classes.arcs import Cncpoint, cut_circle, cut_arc
+from classes.arcs import Cncpoint, cut_circle, cut_arc, simple_arc
 from classes.ovals import cut_oval, cut_oval_with_tabs
 from classes.drill import peckdrill
-from classes.line import line
+from classes.line import line, comment
+
+def distance(x1, y1, x2, y2):
+    xdiff = x2 - x1
+    ydiff = y2 - y1
+    return math.sqrt(xdiff * xdiff + ydiff * ydiff)
+
 
 class StockInfo:
 
@@ -93,6 +100,33 @@ class CncCircle(CncCut):
         if not self.disabled:
             #print('CncCircle exec {0}'.format(self.name))
             cut_circle(Cncpoint(self.x, self.y), self.diameter, self.z, self.depth, job.depth_per_pass, tool.diameter)
+
+class CncArc(CncCut):
+
+    def __init__(self, cut):
+        try:
+            self.x = cut['center_x']
+            self.y = cut['center_y']
+            self.start_x = cut['start_x']
+            self.start_y = cut['start_y']
+            self.end_x = cut['end_x']
+            self.end_y = cut['end_y']
+            self.arc_width = cut['arc_width']
+            self.clockwise = cut['clockwise']
+
+            self.diameter = distance(self.x, self.y, self.start_x, self.start_y)
+            self.width = self.diameter
+            self.height = self.diameter
+        except AttributeError:
+            dump_attribute_exception(self.name)
+        super().__init__(cut)
+
+    def exec(self, stock, tool, job):
+        if not self.disabled:
+            simple_arc(Cncpoint(self.start_x, self.start_y), Cncpoint(self.x, self.y), Cncpoint(self.end_x, self.end_y), 
+                       self.z, self.depth, self.clockwise, tool.diameter, job.depth_per_pass)
+#            cut_arc(self.arc_width, Cncpoint(self.start_x, self.start_y), Cncpoint(self.x, self.y), tool.diameter, self.z, self.depth, 
+#                    job.depth_per_pass, Cncpoint(self.end_x, self.end_y), self.clockwise)
 
 class CncOutline(CncCut):
 
@@ -282,6 +316,8 @@ def load_cut(cutnode):
             rv = CncOutline(cutnode)
         elif(cutnode['type'] == 'circle'):
             rv = CncCircle(cutnode)
+        elif(cutnode['type'] == 'arc'):
+            rv = CncArc(cutnode)
         elif(cutnode['type'] == 'oval_outline'):
             rv = CncOvalOutline(cutnode)
         elif(cutnode['type'] == 'ramp_clearing_y'):

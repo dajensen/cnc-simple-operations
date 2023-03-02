@@ -46,10 +46,13 @@ def arc_to_yz(y, z, center_y, center_z, clockwise):
 def gcode_arc(start, center, end, z, clockwise):
     if end == None:
         end = start
-    comment()
     move_to(start.x, start.y)
     set_z(-z)
-    arc_to(end.x, end.y, center.x, center.y, clockwise)
+    # An odd thing about gcode -
+    # the center point is calculated relative to the start position,
+    # even in G90 Absolute mode.  Absolute mode means the end point is specified in absolute coordinates
+    # but that doesn't mean the center is specified in absolute coordinate.  It's not.
+    arc_to(end.x, end.y, center.x - start.x, center.y - start.y, clockwise)
     retract(SAFE_HEIGHT)
 
 def cut_arc_on_plane(arc_width, start, center, z, cutter_diameter, end, clockwise):
@@ -70,13 +73,22 @@ def cut_arc_on_plane(arc_width, start, center, z, cutter_diameter, end, clockwis
         diff = min(cutter_diameter / 2, outer_radius - radius_this_pass)
         radius_this_pass += diff
     
-def cut_arc(arc_width, start, center, cutter_diameter, depth, depth_per_pass, end, clockwise):
-    zpos = 0    # This is not correct, but it will work for now
+def cut_arc(arc_width, start, center, cutter_diameter, start_z, depth, depth_per_pass, end, clockwise):
+    zpos = start_z
     diff = min(depth_per_pass, depth + zpos)
     while diff > 0:
         zpos = zpos - diff
         cut_arc_on_plane(arc_width, start, center, zpos, cutter_diameter, end, clockwise)
         diff = min(depth_per_pass, depth + zpos)
+
+def simple_arc(start, center, end, start_z, depth, clockwise, cutter_diameter, depth_per_pass):
+    comment("Simple Arc")
+    zpos = start_z
+    diff = min(depth_per_pass, depth - zpos)
+    while diff > 0:
+        zpos = zpos + diff
+        gcode_arc(start, center, end, zpos, clockwise)
+        diff = min(depth_per_pass, depth - zpos)
 
 def cut_circle_on_plane(center, diameter, z, cutter_diameter):
     comment("Circle")

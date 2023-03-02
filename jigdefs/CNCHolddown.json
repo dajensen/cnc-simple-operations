@@ -1,0 +1,148 @@
+{
+    "stock": {
+        "comments": "This includes the space around the edges that is used to fasten the stock to the spoilboard",
+        "x": 100,
+        "y": 125,
+        "z": 19
+    },
+    "tool": {
+        "comments": "A 1/8 inch end mill", 
+        "diameter": 3.175
+    },
+    "job": {
+        "depth_per_pass": 2,
+        "tab_width": 4,
+        "tab_height": 2
+    },
+    "cuts": [
+        {
+            "name": "Clearing Bottom Part",
+            "type": "rect",
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "depth": 1.75,
+            "width": 48,
+            "height": 23
+        },
+        {
+            "name": "Clearing Top Part",
+            "type": "rect",
+            "x": 0,
+            "y": 30,
+            "z": 0,
+            "depth": 1.75,
+            "width": 48,
+            "height": 45
+        },
+        {
+            "name": "Screw For Tapping",
+            "type": "circle",
+            "center_x": 24,
+            "center_y": 60,
+            "diameter": 5.1,
+            "z": 0,
+            "depth": 19
+        },
+        {
+            "name": "Screw For Mounting",
+            "type": "circle",
+            "center_x": 24,
+            "center_y": 26.5,
+            "diameter": 6.35,
+            "z": 0,
+            "depth": 19
+        },
+        {
+            "name": "Left",
+            "type": "line",
+            "x1": -1.5875,
+            "y1": -1.5875,
+            "x2": -1.5875,
+            "y2": 55,
+            "z": 0,
+            "depth": 18,
+            "depth_per_pass": 2
+        },
+        {
+            "name": "Left Crosscut",
+            "type": "line",
+            "x1": -1.5875,
+            "y1": 55,
+            "x2": 11.4125,
+            "y2": 55,
+            "z": 0,
+            "depth": 18,
+            "depth_per_pass": 2
+        },
+        {
+            "name": "Left Uppercut",
+            "type": "line",
+            "x1": 11.4125,
+            "y1": 55,
+            "x2": 11.4125,
+            "y2": 60,
+            "z": 0,
+            "depth": 18,
+            "depth_per_pass": 2
+        },
+        {
+            "name": "Rounded End",
+            "type": "arc",
+            "arc_width": 3.176,
+            "center_x": 24,
+            "center_y": 60,
+            "start_x": 11.4125,
+            "start_y": 60,
+            "end_x": 36.5875,
+            "end_y": 60,
+            "clockwise": true,
+            "z": 0,
+            "depth": 18
+        },
+        {
+            "name": "Right Uppercut",
+            "type": "line",
+            "x1": 36.5875,
+            "y1": 55,
+            "x2": 36.5875,
+            "y2": 60,
+            "z": 0,
+            "depth": 18,
+            "depth_per_pass": 2
+        },
+        {
+            "name": "Right Crosscut",
+            "type": "line",
+            "x1": 49.5875,
+            "y1": 55,
+            "x2": 36.5875,
+            "y2": 55,
+            "z": 0,
+            "depth": 18,
+            "depth_per_pass": 2
+        },
+        {
+            "name": "Right",
+            "type": "line",
+            "x1": 49.5875,
+            "y1": -1.5875,
+            "x2": 49.5875,
+            "y2": 55,
+            "z": 0,
+            "depth": 18,
+            "depth_per_pass": 2
+        },
+        {
+            "name": "Bottom",
+            "type": "line",
+            "x1": -1.5875,
+            "y1": -1.5875,
+            "x2": 49.5875,
+            "y2":-1.5875,
+            "z": 0,
+            "depth": 18,
+            "depth_per_pass": 2
+        }
+    ]
+ }

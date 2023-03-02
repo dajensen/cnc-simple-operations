@@ -1,0 +1,4 @@
+BOGUS: Unable to open jigdefs/makejig.json.  System error follows.
+Exception type: FileNotFoundError
+    2
+    No such file or directory
