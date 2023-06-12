@@ -134,7 +134,7 @@ class CncOutline(CncCut):
         super().__init__(cut)
         self.bridges = False
         if "bridges" in cut:
-            self.bridges = cut["bridges"].lower() == "true"
+            self.bridges = cut["bridges"]
 
     def exec(self, stock, tool, job):
         if not self.disabled:
@@ -149,7 +149,8 @@ class CncOvalOutline(CncCut):
         super().__init__(cut)
         self.bridges = False
         if "bridges" in cut:
-            self.bridges = cut["bridges"].lower() == "true"
+            self.bridges = cut["bridges"]
+        
         # rounded_axis is required.  If it's missing or invalid, an exception will be thrown
         rounded_axis = cut["rounded_axis"].lower()
         if rounded_axis == 'x' or rounded_axis == 'y':
