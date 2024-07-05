@@ -1,0 +1,90 @@
+{
+    "stock": {
+        "comments": [
+            "This includes the space around the edges that is used to fasten the stock to the spoilboard",
+            "This stock is plywood that is nominally 1/2\" thick, but it's actually a little undersized.",
+            "These stock dimensions include space for 1\" holddowns on the top and bottom, with a stop on the right side for x-axis alignment."
+        ],
+        "x": 300,
+        "y": 300,
+        "z": 12
+    },
+    "tool": {
+        "comments": "Use a 1/4\" end mill", 
+        "diameter": 6.35
+    },
+    "job": {
+        "depth_per_pass": 2,
+        "tab_width": 6,
+        "tab_height": 3
+    },
+    "cuts": [
+        {
+            "name": "jig body",
+            "type": "outline",
+            "bridges": "true",
+            "x": 0,
+            "y": 0,
+            "z": 0,
+            "depth": 12,
+            "width": 250,
+            "height": 250,
+            "cuts": [
+                {
+                    "comments": [
+                        "This slot is just slightly more than 3/16\" deep, which means I can put in a 3/8\" T-slot extrusion",
+                        "and use the same depth of rail slot in the jig faceplate."
+                    ],
+                    "name": "rail slot left",
+                    "type": "rect",
+                    "x": 50,
+                    "y": 0,
+                    "z": 0,
+                    "depth": 5,
+                    "width": 20,
+                    "height": 110
+                },
+                {
+                    "name": "rail slot right",
+                    "type": "rect",
+                    "x": 180,
+                    "y": 0,
+                    "z": 0,
+                    "depth": 5,
+                    "width": 20,
+                    "height": 110
+                },
+                {
+                    "name": "bolt slot left",
+                    "type": "rect",
+                    "x": 25,
+                    "y": 25,
+                    "z": 0,
+                    "depth": 12,
+                    "width": 7,
+                    "height": 50
+                },
+                {
+                    "name": "bolt slot right",
+                    "type": "rect",
+                    "x": 218,
+                    "y": 25,
+                    "z": 0,
+                    "depth": 12,
+                    "width": 7,
+                    "height": 50
+                },
+                {
+                    "name": "Routing window",
+                    "type": "rect",
+                    "x": 78.65,
+                    "y": 124,
+                    "z": 0,
+                    "depth": 12,
+                    "width": 92.7,
+                    "height": 97.7
+                }        
+            ]
+        }
+    ]
+}
